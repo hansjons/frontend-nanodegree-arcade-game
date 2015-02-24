@@ -17,7 +17,7 @@ Enemy.prototype.startPos = function() {
     this.x = COL_WIDTH * Math.floor(Math.random()* -4 + 1);
     this.y = ROW_HEIGHT * Math.floor(Math.random()* 3 + 1);
     this.speed = Math.random() * 400 + 150;
-}
+};
 
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
@@ -43,7 +43,28 @@ Enemy.prototype.render = function() {
 // This class requires an update(), render() and
 // a handleInput() method.
 var Player = function() {
-    this.sprite = 'images/char-boy.png';
+    var sprites = [
+        'images/char-boy.png',
+        'images/char-cat-girl.png',
+        'images/char-horn-girl.png',
+        'images/char-pink-girl.png',
+        'images/char-princess-girl.png'
+    ];
+    var i = 0;
+    this.sprite = sprites[i];
+
+    this.startPos = function() {
+        this.x = 202;
+        this.y = 415;
+    };
+
+    this.changePlayerPic = function() {
+        if (++i == sprites.length) {
+            i = 0;
+        }
+        this.sprite = sprites[i];
+    };
+
     this.startPos();
 }
 
@@ -52,14 +73,14 @@ Player.prototype.constructor = Player;
 Player.prototype.update = function(dt) {
 
 };
-Player.prototype.startPos = function() {
-    this.x = 202;
-    this.y = 415;
-};
+
 Player.prototype.collision = function() {
     this.startPos();
 };
 Player.prototype.handleInput = function(dir) {
+    if (dir == "up" && this.y == ROW_HEIGHT ) {
+        console.log("you won");
+    }
     if (dir == "up" && this.y > ROW_HEIGHT ) {
         this.y -= ROW_HEIGHT;
     }
@@ -71,6 +92,9 @@ Player.prototype.handleInput = function(dir) {
     }
     if (dir == "right" && this.x < 404 ) {
         this.x += COL_WIDTH;
+    }
+    if (dir == "space") {
+        this.changePlayerPic();
     }
 };
 
@@ -89,6 +113,8 @@ var player = new Player();
 // Player.handleInput() method. You don't need to modify this.
 document.addEventListener('keyup', function(e) {
     var allowedKeys = {
+        13: 'enter',
+        32: 'space',
         37: 'left',
         38: 'up',
         39: 'right',
