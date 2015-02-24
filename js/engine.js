@@ -136,7 +136,7 @@ var Engine = (function(global) {
             }
         }
 
-
+        
         renderEntities();
     }
 
