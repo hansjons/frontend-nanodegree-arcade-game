@@ -43,29 +43,40 @@ Enemy.prototype.render = function() {
 // This class requires an update(), render() and
 // a handleInput() method.
 var Player = function() {
-    var sprites = [
+    var i,
+        sprites = [
         'images/char-boy.png',
         'images/char-cat-girl.png',
         'images/char-horn-girl.png',
         'images/char-pink-girl.png',
         'images/char-princess-girl.png'
     ];
-    var i = 0;
-    this.sprite = sprites[i];
 
+    this.newGame = true;
+    this.message = "Welcome";
     this.startPos = function() {
         this.x = 202;
         this.y = 415;
     };
 
-    this.changePlayerPic = function() {
-        if (++i == sprites.length) {
-            i = 0;
-        }
+    this.firstPic = function () {
+        i = 0;
         this.sprite = sprites[i];
+
+    }
+    this.changePlayerPic = function() {
+        if (i == sprites.length - 1) {
+            this.newGame = true;
+            this.message = "You won!";
+            this.startPos()
+            this.firstPic();
+        } else {
+            this.sprite = sprites[++i];
+        }
     };
 
     this.startPos();
+    this.firstPic();
 }
 
 Player.prototype = Object.create(Enemy.prototype);
@@ -75,26 +86,35 @@ Player.prototype.update = function(dt) {
 };
 
 Player.prototype.collision = function() {
-    this.startPos();
+    this.newGame = true;
+    this.message = "You lost!";
+    this.startPos()
+    this.firstPic();
 };
+
+
 Player.prototype.handleInput = function(dir) {
-    if (dir == "up" && this.y == ROW_HEIGHT ) {
-        console.log("you won");
-    }
-    if (dir == "up" && this.y > ROW_HEIGHT ) {
-        this.y -= ROW_HEIGHT;
-    }
-    if (dir == "down" && this.y < 415 ) {
-        this.y += ROW_HEIGHT;
-    }
-    if (dir == "left" && this.x >= COL_WIDTH ) {
-        this.x -= COL_WIDTH;
-    }
-    if (dir == "right" && this.x < 404 ) {
-        this.x += COL_WIDTH;
-    }
-    if (dir == "space") {
-        this.changePlayerPic();
+    if (this.newGame) {
+        if (dir == "space") {
+            this.newGame = false;
+        }
+    } else {
+        if (dir == "up" && this.y == ROW_HEIGHT ) {
+            this.startPos();
+            this.changePlayerPic();
+        }
+        if (dir == "up" && this.y > ROW_HEIGHT ) {
+            this.y -= ROW_HEIGHT;
+        }
+        if (dir == "down" && this.y < 415 ) {
+            this.y += ROW_HEIGHT;
+        }
+        if (dir == "left" && this.x >= COL_WIDTH ) {
+            this.x -= COL_WIDTH;
+        }
+        if (dir == "right" && this.x < 404 ) {
+            this.x += COL_WIDTH;
+        }
     }
 };
 

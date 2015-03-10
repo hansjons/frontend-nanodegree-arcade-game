@@ -136,8 +136,26 @@ var Engine = (function(global) {
             }
         }
 
+        if (player.newGame) {
+            ctx.save();
+            ctx.font = "36pt Impact";
+            ctx.textAlign = "center";
 
-        renderEntities();
+            ctx.fillStyle = "white";
+            ctx.fillText(player.message, canvas.width / 2, 200);
+            ctx.fillText("Press space to play", canvas.width / 2, 270);
+            ctx.fillText("Arrows for control", canvas.width / 2, 350);
+
+            ctx.strokeStyle = "black";
+            ctx.lineWidth = 3;
+            ctx.strokeText(player.message, canvas.width / 2, 200);
+            ctx.strokeText("Press space to play", canvas.width / 2, 270);
+            ctx.strokeText("Arrows for control", canvas.width / 2, 350);
+            ctx.restore();
+        } else {
+            renderEntities();
+        }
+
     }
 
     /* This function is called by the render function and is called on each game
