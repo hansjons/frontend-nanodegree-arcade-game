@@ -52,7 +52,6 @@ var Player = function() {
         'images/char-princess-girl.png'
     ];
 
-    this.newGame = true;
     this.message = "Welcome";
     this.startPos = function() {
         this.x = 202;
@@ -66,17 +65,21 @@ var Player = function() {
     }
     this.changePlayerPic = function() {
         if (i == sprites.length - 1) {
-            this.newGame = true;
             this.message = "You won!";
-            this.startPos()
-            this.firstPic();
+            this.reset();
         } else {
             this.sprite = sprites[++i];
         }
     };
 
-    this.startPos();
-    this.firstPic();
+    this.reset = function () {
+        this.newGame = true;
+        this.startPos();
+        this.firstPic();
+    }
+
+    this.reset();
+
 }
 
 Player.prototype = Object.create(Enemy.prototype);
@@ -86,10 +89,8 @@ Player.prototype.update = function(dt) {
 };
 
 Player.prototype.collision = function() {
-    this.newGame = true;
     this.message = "You lost!";
-    this.startPos()
-    this.firstPic();
+    this.reset();
 };
 
 
