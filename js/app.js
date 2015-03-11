@@ -13,6 +13,10 @@ var Enemy = function() {
     this.startPos();
 }
 
+/* This function places the enemies randomly to the left of
+ * the board. It also gives them randomly generated speed of
+ * movement.
+ */
 Enemy.prototype.startPos = function() {
     this.x = COL_WIDTH * Math.floor(Math.random()* -4 + 1);
     this.y = ROW_HEIGHT * Math.floor(Math.random()* 3 + 1);
@@ -29,6 +33,7 @@ Enemy.prototype.update = function(dt) {
     if (this.x > 505) {
         this.startPos();
     }
+    // Check if the enemy collides with the player character.
     if (this.y === player.y && Math.abs(this.x - player.x) < 40) {
         player.collision();
     }
@@ -44,7 +49,7 @@ Enemy.prototype.render = function() {
 // a handleInput() method.
 var Player = function() {
     var i,
-        sprites = [
+        sprites = [ // Those  are the different characters.
         'images/char-boy.png',
         'images/char-cat-girl.png',
         'images/char-horn-girl.png',
@@ -52,17 +57,17 @@ var Player = function() {
         'images/char-princess-girl.png'
     ];
 
-    this.message = "Welcome";
-    this.startPos = function() {
-        this.x = 202;
-        this.y = 415;
-    };
+    this.newGame = true; // Initially we have a new game.
+    this.message = "Welcome"; // Message to show at start.
 
+    // Set our player to the first character.
     this.firstPic = function () {
         i = 0;
         this.sprite = sprites[i];
 
-    }
+    };
+
+    // Get next character for the player. He wins if all have been used.
     this.changePlayerPic = function() {
         if (i == sprites.length - 1) {
             this.message = "You won!";
@@ -72,14 +77,7 @@ var Player = function() {
         }
     };
 
-    this.reset = function () {
-        this.newGame = true;
-        this.startPos();
-        this.firstPic();
-    }
-
     this.reset();
-
 }
 
 Player.prototype = Object.create(Enemy.prototype);
@@ -88,6 +86,23 @@ Player.prototype.update = function(dt) {
 
 };
 
+Player.prototype.startPos = function() {
+    this.x = 202;
+    this.y = 415;
+};
+
+/* Sends the first character to the start position and displays message
+ * and instructions.
+ */
+Player.prototype.reset = function () {
+    this.newGame = this.newGame || true;
+    this.startPos();
+    this.firstPic();
+};
+
+/* Colliding with a bug means the player looses and a message to that
+ * effect is diplayed.
+  */
 Player.prototype.collision = function() {
     this.message = "You lost!";
     this.reset();
