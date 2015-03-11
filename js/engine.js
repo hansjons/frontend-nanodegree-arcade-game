@@ -136,6 +136,11 @@ var Engine = (function(global) {
             }
         }
 
+        /* On starting the game, having a collision or getting all characters
+         * safely across the road to the water player.newGame returns true and
+         * the player.message is displayed along with instruction for continuing
+          * the game.
+         */
         if (player.newGame) {
             ctx.save();
             ctx.font = "36pt Impact";
