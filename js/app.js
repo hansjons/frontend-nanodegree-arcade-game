@@ -101,7 +101,7 @@ Player.prototype.reset = function () {
 };
 
 /* Colliding with a bug means the player looses and a message to that
- * effect is diplayed.
+ * effect is displayed.
   */
 Player.prototype.collision = function() {
     this.message = "You lost!";
