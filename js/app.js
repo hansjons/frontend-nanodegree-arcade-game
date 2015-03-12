@@ -1,3 +1,5 @@
+"use strict";
+
 var COL_WIDTH = 101;
 var ROW_HEIGHT = 83;
 var ENEMIES = 3;
@@ -115,7 +117,7 @@ Player.prototype.handleInput = function(dir) {
             this.newGame = false;
         }
     } else {
-        if (dir == "up" && this.y == ROW_HEIGHT ) {
+        if (dir == "up" && this.y === ROW_HEIGHT ) {
             this.startPos();
             this.changePlayerPic();
         }
