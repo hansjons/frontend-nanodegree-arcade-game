@@ -11,7 +11,7 @@ var Enemy = function() {
     // a helper we've provided to easily load images
     this.sprite = 'images/enemy-bug.png';
     this.startPos();
-}
+};
 
 /* This function places the enemies randomly to the left of
  * the board. It also gives them randomly generated speed of
@@ -37,12 +37,12 @@ Enemy.prototype.update = function(dt) {
     if (this.y === player.y && Math.abs(this.x - player.x) < 40) {
         player.collision();
     }
-}
+};
 
 // Draw the enemy on the screen, required method for game
 Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-}
+};
 
 // Now write your own player class
 // This class requires an update(), render() and
@@ -78,7 +78,7 @@ var Player = function() {
     };
 
     this.reset();
-}
+};
 
 Player.prototype = Object.create(Enemy.prototype);
 Player.prototype.constructor = Player;
